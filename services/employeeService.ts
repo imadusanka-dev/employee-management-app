@@ -6,4 +6,9 @@ const getEmployees = async (): Promise<Employee[]> => {
   return response.data.data;
 };
 
-export { getEmployees };
+const addEmployee = async (data: any): Promise<Employee> => {
+  const response = await axiosInstance.post("/employee", data);
+  return response.data.data;
+};
+
+export { getEmployees, addEmployee };
