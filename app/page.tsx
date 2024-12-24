@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 import { EmployeeCard, AddModal } from "@/components";
 import {
   getEmployees,
   addEmployee,
   updateEmployee,
+  deleteEmployee,
 } from "@/services/employeeService";
 import { getDepartments } from "@/services/departmentService";
 import { AddEmployeePayload, Employee } from "@/types";
@@ -35,6 +36,7 @@ export default function Home() {
   const { mutate: saveEmployee } = useMutation({
     mutationFn: addEmployee,
     onSuccess: () => {
+      void message.success("Employee added successfully");
       void reFetchEmployees();
       setShowModal(false);
     },
@@ -44,8 +46,17 @@ export default function Home() {
     mutationFn: (data: { id: number; payload: AddEmployeePayload }) =>
       updateEmployee(data.id, data.payload),
     onSuccess: () => {
+      void message.success("Employee updated successfully");
       void reFetchEmployees();
       setShowModal(false);
+    },
+  });
+
+  const { mutate: removeEmployee } = useMutation({
+    mutationFn: deleteEmployee,
+    onSuccess: () => {
+      void message.success("Employee deleted successfully");
+      void reFetchEmployees();
     },
   });
 
@@ -60,6 +71,10 @@ export default function Home() {
   const handleEditClick = (employee: Employee) => {
     setEditData(employee);
     setShowModal(true);
+  };
+
+  const handleDeleteClick = (id: number) => {
+    removeEmployee(id);
   };
 
   if (isLoading) {
@@ -84,6 +99,7 @@ export default function Home() {
             key={employee?.id}
             employee={employee}
             handleEditClick={handleEditClick}
+            handleDeleteClick={handleDeleteClick}
           />
         ))}
       </div>

@@ -5,9 +5,14 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 interface Props {
   employee: Employee;
   handleEditClick: (employee: Employee) => void;
+  handleDeleteClick: (id: number) => void;
 }
 
-export const EmployeeCard = ({ employee, handleEditClick }: Props) => {
+export const EmployeeCard = ({
+  employee,
+  handleEditClick,
+  handleDeleteClick,
+}: Props) => {
   return (
     <div className="shadow border rounded-lg hover:bg-slate-100">
       <div className="p-4">
@@ -20,7 +25,12 @@ export const EmployeeCard = ({ employee, handleEditClick }: Props) => {
           >
             Edit
           </Button>
-          <Button icon={<DeleteOutlined />} danger className="ml-2">
+          <Button
+            icon={<DeleteOutlined />}
+            danger
+            className="ml-2"
+            onClick={() => handleDeleteClick(employee.id)}
+          >
             Delete
           </Button>
         </div>

@@ -7,13 +7,15 @@ const getEmployees = async (): Promise<Employee[]> => {
 };
 
 const addEmployee = async (data: AddEmployeePayload) => {
-  const response = await axiosInstance.post("/employee", data);
-  return response.data.data;
+  return await axiosInstance.post("/employee", data);
 };
 
 const updateEmployee = async (id: number, data: AddEmployeePayload) => {
-  const response = await axiosInstance.put(`/employee/${id}`, data);
-  return response.data.data;
+  return await axiosInstance.put(`/employee/${id}`, data);
 };
 
-export { getEmployees, addEmployee, updateEmployee };
+const deleteEmployee = async (id: number) => {
+  return await axiosInstance.delete(`/employee/${id}`);
+};
+
+export { getEmployees, addEmployee, updateEmployee, deleteEmployee };
