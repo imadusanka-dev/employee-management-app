@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 
-import { EmployeeCard, AddModal } from "@/components";
+import { EmployeeCard, AddModal, ViewModal } from "@/components";
 import {
   getEmployees,
   addEmployee,
@@ -17,6 +17,7 @@ import { AddEmployeePayload, Employee } from "@/types";
 
 export default function Home() {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [editData, setEditData] = useState<Employee | null>(null);
 
   const {
@@ -38,7 +39,7 @@ export default function Home() {
     onSuccess: () => {
       void message.success("Employee added successfully");
       void reFetchEmployees();
-      setShowModal(false);
+      handleModalClose();
     },
   });
 
@@ -48,7 +49,7 @@ export default function Home() {
     onSuccess: () => {
       void message.success("Employee updated successfully");
       void reFetchEmployees();
-      setShowModal(false);
+      handleModalClose();
     },
   });
 
@@ -77,6 +78,22 @@ export default function Home() {
     removeEmployee(id);
   };
 
+  const handleModalClose = () => {
+    setShowModal(false);
+    setEditData(null);
+  };
+
+  const handleViewClick = (employee: Employee) => {
+    setEditData(employee);
+    setShowViewModal(true);
+  };
+
+  const handleViewModalClose = () => {
+    setShowViewModal(false);
+    setEditData(null);
+    console.log("View Modal Closed");
+  };
+
   if (isLoading) {
     return (
       <div className="h-screen flex justify-center items-center text-lg">
@@ -93,22 +110,28 @@ export default function Home() {
           <PlusOutlined /> Add Employee
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {employees?.map((employee) => (
           <EmployeeCard
             key={employee?.id}
             employee={employee}
             handleEditClick={handleEditClick}
             handleDeleteClick={handleDeleteClick}
+            handleViewClick={handleViewClick}
           />
         ))}
       </div>
       <AddModal
         open={showModal}
-        handleClose={() => setShowModal(false)}
+        handleClose={handleModalClose}
         handleAdd={handleAddEmployee}
         handleEdit={handleUpdateEmployee}
         departments={departments}
+        employee={editData}
+      />
+      <ViewModal
+        open={showViewModal}
+        onClose={handleViewModalClose}
         employee={editData}
       />
     </div>
