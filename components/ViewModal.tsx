@@ -16,12 +16,14 @@ export const ViewModal = ({ open, onClose, employee }: Props) => {
       footer={false}
     >
       <div>
-        <p>Name: {`${employee?.firstName} ${employee?.lastName}`}</p>
-        <p>Designation: {employee?.designation}</p>
-        <p>Date of Birth: {employee?.dob}</p>
-        <p>NIC: {employee?.nic}</p>
-        <p>Email: {employee?.email}</p>
-        <p>Phone: {employee?.phone}</p>
+        <p className="mb-2">
+          Name: {`${employee?.firstName} ${employee?.lastName}`}
+        </p>
+        <p className="mb-2">Designation: {employee?.designation}</p>
+        <p className="mb-2">Date of Birth: {employee?.dob}</p>
+        <p className="mb-2">NIC: {employee?.nic}</p>
+        <p className="mb-2">Email: {employee?.email}</p>
+        <p className="mb-2">Phone: {employee?.phone}</p>
         <p>Department: {employee?.department?.name}</p>
       </div>
     </Modal>
