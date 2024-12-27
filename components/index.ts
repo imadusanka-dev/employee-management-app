@@ -1,4 +1,3 @@
-export * from "./Header";
 export * from "./EmployeeCard";
 export * from "./AddModal";
 export * from "./EmployeeForm";

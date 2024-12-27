@@ -1,10 +1,9 @@
 "use client";
 
 import "./globals.css";
+import AppLayout from "@/components/AppLayout";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import { Header } from "../components";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -19,8 +18,7 @@ export default function RootLayout({
       <body>
         <QueryClientProvider client={queryClient}>
           <AntdRegistry>
-            <Header />
-            {children}
+            <AppLayout>{children}</AppLayout>
           </AntdRegistry>
         </QueryClientProvider>
       </body>
